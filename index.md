@@ -58,8 +58,7 @@ Please, be aware that OpenCV 4.1.1 requires at least CUDA 10.1.
 
 ## First OpenCV CUDA example
 
-A first OpenCV CUDA example is reported in Listing
-[\[firstExampleOpenCV\]](#firstExampleOpenCV).
+A first OpenCV CUDA example is reported in Listing [1](#firstExampleOpenCV).
 
 ``` c++
 #include <opencv2\opencv.hpp>
@@ -80,26 +79,24 @@ int main(){
 
     return 0;}
 ```
+<p align="center" id="firstExampleOpenCV" >
+     <em>Listing 1. First OpenCV CUDA example.</em>
+</p>
 
-The code in this example checks whether the OpenCV CUDA installation is
-in order.  
+The code in this example checks whether the OpenCV CUDA installation is in order.  
 To compile such an example under Visual Studio 2015, do not forget to:
 
 1.  add `Project -> Properties -> Configuration Properties -> VC++
     Directories -> Include Directories ->
     C:\Users\bookWriter\opencv\build\install\include`;
 
-2.  add `Project -> Properties -> Configuration Properties -> Linker ->
-    General -> C:\Users\bookWriter\opencv\build\install\x64\vc14\lib`;
+2.  add `Project -> Properties -> Configuration Properties -> Linker -> General -> C:\Users\bookWriter\opencv\build\install\x64\vc14\lib`;
 
-3.  add `Project -> Properties -> Configuration Properties -> Linker ->
-    Input -> Additional Dependencies -> opencv_world411d.lib for OpenCV
-    version 4.1.1`;
+3.  add `Project -> Properties -> Configuration Properties -> Linker -> Input -> Additional Dependencies -> opencv_world411d.lib for OpenCV version 4.1.1`;
 
 ## Second OpenCV CUDA example
 
-A second OpenCV CUDA example is reported in Listing
-[\[secondExampleOpenCV\]](#secondExampleOpenCV) .  
+A second OpenCV CUDA example is reported in Listing [2](#secondExampleOpenCV) .  
 
 ``` c++
 #include <iostream>
@@ -121,7 +118,9 @@ int main(){
     cv::waitKey();
     return 0; }
 ```
+<p align="center" id="firstExampleOpenCV" >
+     <em>Listing 2. Second OpenCV CUDA example.</em>
+</p>
 
-The code loads a `.png` image to CPU memory, transfers it to GPU,
-applies a threshold, moves the result back to the CPU and shows it.
+The code loads a `.png` image to CPU memory, transfers it to GPU, applies a threshold, moves the result back to the CPU and shows it.
 
