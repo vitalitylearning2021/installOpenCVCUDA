@@ -1,5 +1,9 @@
 ## Building OpenCV for Windows with CUDA
 
+<p align="center">
+  <img src="appendixA.png" width="400">
+</p>
+
 1.  Install CUDA from `https://developer.nvidia.com/cuda-downloads`;
 
 2.  Download cuDNN from `https://developer.nvidia.com/cudnn` (this requires registration);
