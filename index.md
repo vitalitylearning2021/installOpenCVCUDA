@@ -118,7 +118,7 @@ int main(){
     cv::waitKey();
     return 0; }
 ```
-<p align="center" id="firstExampleOpenCV" >
+<p align="center" id="secondExampleOpenCV" >
      <em>Listing 2. Second OpenCV CUDA example.</em>
 </p>
 
