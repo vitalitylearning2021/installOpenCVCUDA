@@ -100,7 +100,7 @@ To compile such an example under Visual Studio 2015, do not forget to:
 
 ## Second OpenCV CUDA example
 
-A second OpenCV CUDA example is reported in Listing [2](#secondExampleOpenCV) .  
+A second OpenCV CUDA example is reported in Listing [2](#secondExampleOpenCV).  
 
 ``` c++
 #include <iostream>
