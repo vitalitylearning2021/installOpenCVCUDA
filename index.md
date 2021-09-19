@@ -1,37 +1,128 @@
-## Welcome to GitHub Pages
+## Building OpenCV for Windows with CUDA
 
-You can use the [editor on GitHub](https://github.com/vitalitylearning2021/installOpenCVCUDA/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+1.  Install CUDA from `https://developer.nvidia.com/cuda-downloads`;
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+2.  Download cuDNN from `https://developer.nvidia.com/cudnn` (this
+    requires registration);
 
-### Markdown
+3.  Install git for windows; for example, use
+    `https://gitforwindows.org/`;
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+4.  From the command prompt, type `git clone
+    https://github.com/opencv/opencv.git`; this will create an opencv
+    directory under the current directory (`C:\Users\bookWriter`, for
+    example);
 
-```markdown
-Syntax highlighted code block
+5.  From the command prompt, type `git clone
+    https://github.com/opencv/opencv_contrib`; this will create an
+    `opencv_contrib` directory under the current directory;
 
-# Header 1
-## Header 2
-### Header 3
+6.  Add `C:\Program Files (x86)\Windows Kits\8.1\bin\x86` to the `Path`
+    environment variables, if not yet included;
 
-- Bulleted
-- List
+7.  Install CMake from `cmake.org/download`; use the `.msi` file;
 
-1. Numbered
-2. List
+8.  From the command line, type
+    
+    ``` c++
+    "C:\Program Files\CMake\bin\cmake.exe"
+        -B"C:\Users\bookWriter\opencv\build" -
+        H"C:\Users\bookWriter\opencv" -
+        DOPENCV_EXTRA_MODULES_PATH="C:\Users\bookWriter\opencv_contrib\
+        modules" -G"Visual Studio 14 2015 Win64" -
+        DBUILD_opencv_world=ON -DWITH_CUDA=ON -DCUDA_FAST_MATH=ON -
+        DWITH_CUBLAS=ON -DINSTALL_TESTS=ON -DINSTALL_C_EXAMPLES=ON -
+        DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release -
+        DBUILD_opencv_gapi=OFF -DWITH_NVCUVID=OFF -DWITH_OPENGL=ON -
+        DOPENCV_ENABLE_NONFREE=ON -
+        DCUDA_ARCH_PTX=5.2 
+    ```
+    
+    `C:\Users\bookWriter` is the directory within which `opencv` and
+    `opencv_contrib` have been downloaded and created; `OpenCV` is built
+    using `Visual Studio 2015` (`-G"Visual Studio 14 2015 Win64"`
+    option), but other versions of Visual Studio are possible; the code
+    is built for a `5.2` architecture (option `DCUDA_ARCH_PTX=5.2`);
+    this operation may take several minutes and will create, among
+    others, the `OpenCV.sln` file under
+    `C:\Users\bookWriter\opencv\build`;
 
-**Bold** and _Italic_ and `Code` text
+9.  Double click on the `OpenCV.sln` file;
 
-[Link](url) and ![Image](src)
+10. Under `Solution` `'OpenCV' -> CMakeTargets -> INSTALL -> right click
+    -> build`;
+
+11. Add `C:\Users\bookWriter\opencv\build\install\x64\vc14\bin` to the
+    environment variables.
+
+Please, be aware that OpenCV 4.1.1 requires at least CUDA 10.1.
+
+## First OpenCV CUDA example
+
+A first OpenCV CUDA example is reported in Listing
+[\[firstExampleOpenCV\]](#firstExampleOpenCV).
+
+``` c++
+#include <opencv2\opencv.hpp>
+#include <opencv2\cudaimgproc.hpp>
+
+#include <opencv2\opencv.hpp>
+#include <opencv2\cudaimgproc.hpp>
+/********/
+/* MAIN */
+/********/
+int main(){
+    std::cout << cv::getBuildInformation() << std::endl;
+    
+    auto idx = cv::cuda::getCudaEnabledDeviceCount();
+    
+    if (idx > 0) cv::cuda::printCudaDeviceInfo(0);
+    else printf("OpenCV CUDA error!");
+
+    return 0;}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+The code in this example checks whether the OpenCV CUDA installation is
+in order.  
+To compile such an example under Visual Studio 2015, do not forget to:
 
-### Jekyll Themes
+1.  add `Project -> Properties -> Configuration Properties -> VC++
+    Directories -> Include Directories ->
+    C:\Users\bookWriter\opencv\build\install\include`;
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/vitalitylearning2021/installOpenCVCUDA/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+2.  add `Project -> Properties -> Configuration Properties -> Linker ->
+    General -> C:\Users\bookWriter\opencv\build\install\x64\vc14\lib`;
 
-### Support or Contact
+3.  add `Project -> Properties -> Configuration Properties -> Linker ->
+    Input -> Additional Dependencies -> opencv_world411d.lib for OpenCV
+    version 4.1.1`;
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Second OpenCV CUDA example
+
+A second OpenCV CUDA example is reported in Listing
+[\[secondExampleOpenCV\]](#secondExampleOpenCV) .  
+
+``` c++
+#include <iostream>
+#include "opencv2\opencv.hpp"
+#include "opencv2\core.hpp"
+#include "opencv2\highgui.hpp"
+#include "opencv2\cudaarithm.hpp"
+/********/
+/* MAIN */
+/********/
+int main(){
+    cv::Mat h_src = cv::imread("C:\\Users\\bookWriter\\Packt\\
+        OpenCVImageTest\\file.png", cv::IMREAD_GRAYSCALE);
+    cv::cuda::GpuMat d_dst, d_src;
+    d_src.upload(h_src);
+    cv::cuda::threshold(d_src, d_dst, 128.0, 255.0, cv::THRESH_BINARY);
+    cv::Mat h_dst(d_dst);
+    cv::imshow("Processing result", h_dst);
+    cv::waitKey();
+    return 0; }
+```
+
+The code loads a `.png` image to CPU memory, transfers it to GPU,
+applies a threshold, moves the result back to the CPU and shows it.
+
