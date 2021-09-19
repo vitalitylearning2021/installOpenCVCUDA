@@ -2,8 +2,7 @@
 
 1.  Install CUDA from `https://developer.nvidia.com/cuda-downloads`;
 
-2.  Download cuDNN from `https://developer.nvidia.com/cudnn` (this
-    requires registration);
+2.  Download cuDNN from `https://developer.nvidia.com/cudnn` (this requires registration);
 
 3.  Install git for windows; for example, use
     `https://gitforwindows.org/`;
@@ -24,7 +23,7 @@
 
 8.  From the command line, type
     
-    ``` c++
+    ``` powershell
     "C:\Program Files\CMake\bin\cmake.exe"
         -B"C:\Users\bookWriter\opencv\build" -
         H"C:\Users\bookWriter\opencv" -
